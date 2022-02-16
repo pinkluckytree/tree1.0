@@ -39,7 +39,7 @@ Java 中所有类都默认继承 java.lang.Object 类，在 java.lang.Object 类
 
 3>ArrayList 和 LinkedList 都不是线程安全的。
 
-## 序列化与cloneable
+## 序列化，serializeable 
 序列化（serialize） - 序列化是将对象转换为字节流。
 
 反序列化（deserialize） - 反序列化是将字节流转换为对象。
