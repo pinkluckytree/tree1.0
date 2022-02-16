@@ -65,6 +65,7 @@ HashMap 计算桶下标（index）公式：hash=h ^ (h >>> 16)。不直接使用
 
 计算下标 ：(n - 1) & hash ，在扩容是只需要比较新增的一位，是0就不管，是1索引变为index=index+oldcap
 
+链表长度超过8变为红黑树
 ## 序列化，serializeable 
 序列化（serialize） - 序列化是将对象转换为字节流。
 
