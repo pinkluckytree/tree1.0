@@ -97,6 +97,32 @@ Thread.yield():静态方法。将当前正在执行的线程暂停，让其他�
 可以使用 setDaemon 方法设置线程为守护线程
 
 相对的是用户线程（user Thread）
+## 常见问题
+
+# sleep、yield、join 方法有什么区别？
+
+yield 方法会 让线程从 Running 状态转入 Runnable 状态。
+
+当调用了 yield 方法后，只有与当前线程相同或更高优先级的Runnable 状态线程才会获得执行的机会。
+
+
+sleep 方法会 让线程从 Running 状态转入 Waiting 状态。
+
+sleep 方法需要指定等待的时间，超过等待时间后，JVM 会将线程从 Waiting 状态转入 Runnable 状态。
+
+当调用了 sleep 方法后，无论什么优先级的线程都可以得到执行机会。
+
+sleep 方法不会释放“锁标志”，也就是说如果有 synchronized 同步块，其他线程仍然不能访问共享数据。（wait会释放）
+
+
+join 方法会 让线程从 Running 状态转入 Waiting 状态。
+
+当调用了 join 方法后，当前线程必须等待调用 join 方法的线程结束后才能继续执行。
+## 为什么 sleep 和 yield 方法是静态的？
+Thread 类的 sleep 和 yield 方法是[20181794-商涛-情绪与激素.docx](https://github.com/pinkluckytree/tree1.0/files/8104158/20181794-.-.docx)
+处理 Running 状态的线程。
+
+处于非运行状态（running）的线程使用这两个方法没有意义
 
 
 
