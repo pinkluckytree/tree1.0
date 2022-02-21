@@ -122,7 +122,16 @@ join 方法会 让线程从 Running 状态转入 Waiting 状态。
 Thread 类的 sleep 和 yield 方法是[20181794-商涛-情绪与激素.docx](https://github.com/pinkluckytree/tree1.0/files/8104158/20181794-.-.docx)
 处理 Running 状态的线程。
 
+
 处于非运行状态（running）的线程使用这两个方法没有意义
+# 并发主要机制
+1.synchronized
+
+2.volatile
+
+3.CAS
+
+4.ThreadLocal（无同步）
 ## 锁级别（其实就是synchronized的四个状态）
 1.无锁状态
 
@@ -151,10 +160,33 @@ Thread 类的 sleep 和 yield 方法是[20181794-商涛-情绪与激素.docx](ht
 
 被volatile修饰的变量具有**可见性，有序性** **不具有原子性**
 
-volatile的使用
+volatile相较synchronized成本更低，不会引起上下文切换。但是由于其不保证原子性，使用上有限制
 
+volatile的使用需要两个条件
 
+1.对当前变量的写操作不依赖于当前值
 
+2.该变量没有包含在具有其他变量的表达式中
+
+# CAS
+**CAS（Compare and Swap），字面意思为比较并交换。CAS 有 3 个操作数，分别是：内存值 M，期望值 E，更新值 U。当且仅当内存值 M 和期望值 E 相等时，将内存值 M 修改为 U，否则什么都不做。
+
+适用于线程冲突较少的情况
+
+## CAS的问题
+1.ABA问题
+
+如果一个变量的值从A->B->A，这时CAS操作会认为该变量的值没有改变
+
+解决方式：1.控制变量值的版本来保证 CAS 的正确性 2.使用传统的互斥同步
+
+2.循环时间长开销大
+
+3.只能保证一个共享变量的原子性
+
+对多个共享变量操作时，循环 CAS 就无法保证操作的原子性，这个时候需要用锁。
+# ThreadLocal
+线程本地存储 - 使用 ThreadLocal 为共享变量在每个线程中都创建了一个本地副本，这个副本只能被当前线程访问，其他线程无法访问，那么自然是线程安全的。
 
 
 
