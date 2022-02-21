@@ -29,6 +29,17 @@ public class Singleton {
         System.out.println("单例模式");
     }
 }
+//饿汉式
+public class Singleton {
+    private static Singleton singleton_instance=new Singleton();
+    private Singleton(){};
+    public static Singleton getInstance(){
+        return singleton_instance;
+    }
+    private void showMessage(){
+        System.out.println("单例模式");
+    }
+}
 ```
 
 使用双重校验锁实现线程安全
