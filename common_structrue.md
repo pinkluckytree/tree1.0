@@ -9,5 +9,6 @@
         Deque<Integer>queue=new LinkedList<>();
         queue.offer(1);
         queue.poll();
+## 单例模式
 
         
