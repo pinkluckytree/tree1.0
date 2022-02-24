@@ -297,9 +297,9 @@ JDK 的 Executors 类中提供了几种具有代表性的线程池，这些线�
 
 实现：final，volite，synchronized，happens-before规则
 
-# final：一旦初始化完成，final 变量的值立刻回写到主内存。
+## final：一旦初始化完成，final 变量的值立刻回写到主内存。
 
-# happens-before规则（又叫先行发生原则）：前面一个操作的结果对后续操作是可见的。
+## happens-before规则（又叫先行发生原则）：前面一个操作的结果对后续操作是可见的。
 
 1.程序次序规则 - 一个线程内，按照代码顺序，书写在前面的操作先行发生于书写在后面的操作。
 
