@@ -244,6 +244,22 @@ volatile的使用需要两个条件
 6.threadFactory线程工厂：可以通过线程工厂给每个创建出来的线程设置更有意义的名字。
 
 7.handler 饱和策略
+
+例子：
+```java
+public ThreadPoolExecutor(int corePoolSize,
+                              int maximumPoolSize,
+                              long keepAliveTime,
+                              TimeUnit unit,
+                              BlockingQueue<Runnable> workQueue,
+                              ThreadFactory threadFactory,
+                              RejectedExecutionHandler handler) {...}
+          
+ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(5, 10, 500, TimeUnit.MILLISECONDS,
+            new LinkedBlockingQueue<Runnable>(),
+            Executors.defaultThreadFactory(),
+            new ThreadPoolExecutor.AbortPolicy());
+```
 ## 线程池状态
 1.运行状态（RUNNING）:正常运行，会处理正在进行的任务也会处理任务队列中的任务，也会接受新任务
 
