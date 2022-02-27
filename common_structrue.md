@@ -56,6 +56,14 @@ public class Singleton {
 }
 ```
 ## 可重入锁设计
+可重入锁设计三要点
+
+1.记住加锁次数
+
+2.记住加锁线程
+
+3.是否加锁
+
 ```java
 public class MyReentrantLock implements Lock {
     private int lockcount=0;
@@ -78,7 +86,7 @@ public class MyReentrantLock implements Lock {
         lockby=currentThread;
         lockcount++;
     }
-
+    
     @Override
     public synchronized void unlock() {//解锁操作
         Thread currentThread=Thread.currentThread();
@@ -91,24 +99,18 @@ public class MyReentrantLock implements Lock {
             }
         }
     }
-
     @Override
     public void lockInterruptibly() throws InterruptedException {
 
     }
-
     @Override
     public boolean tryLock() {
         return false;
     }
-
     @Override
     public boolean tryLock(long time, TimeUnit unit) throws InterruptedException {
         return false;
     }
-
-
-
     @Override
     public Condition newCondition() {
         return null;
