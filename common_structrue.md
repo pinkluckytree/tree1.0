@@ -55,6 +55,66 @@ public class Singleton {
     }  
 }
 ```
+## 可重入锁设计
+```java
+public class MyReentrantLock implements Lock {
+    private int lockcount=0;
+    private Thread lockby=null;
+    private boolean isLocked=false;
+
+    @Override
+    public synchronized void lock() {//加锁操作
+        Thread currentThread=Thread.currentThread();
+        while(isLocked&&currentThread!=lockby){ //若已被锁住&&当前线程不是加锁线程 则需要wait() 一直到isLocked==false 也就是解锁
+            try {
+                wait();
+            }
+            catch (InterruptedException e){
+                e.printStackTrace();
+            }
+        }
+        
+        isLocked=true;
+        lockby=currentThread;
+        lockcount++;
+    }
+
+    @Override
+    public synchronized void unlock() {//解锁操作
+        Thread currentThread=Thread.currentThread();
+        //若加锁线程就是当前线程
+        if(lockby==currentThread){
+            lockcount--;
+            if(lockcount==0){
+                isLocked=false;
+                notifyAll();
+            }
+        }
+    }
+
+    @Override
+    public void lockInterruptibly() throws InterruptedException {
+
+    }
+
+    @Override
+    public boolean tryLock() {
+        return false;
+    }
+
+    @Override
+    public boolean tryLock(long time, TimeUnit unit) throws InterruptedException {
+        return false;
+    }
+
+
+
+    @Override
+    public Condition newCondition() {
+        return null;
+    }
+}
+```
 
 
 
