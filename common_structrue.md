@@ -55,7 +55,7 @@ public class Singleton {
     }  
 }
 ```
-## 可重入锁设计
+## 可重入锁设计 Reentrantlock
 可重入锁设计三要点
 
 1.记住加锁次数
