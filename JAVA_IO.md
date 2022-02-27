@@ -57,3 +57,64 @@ introduction:可以直接访问物理内存的类 DirectBuffer。普通的 Buffe
 传统方式                         ：用户空间<--->内核空间（某种意义上就是物理内存）<----->外部设备
 
 使用DirectBuffer，也就是直接内存  ：物理内存（directBuffer）<---->外部设备
+### AIO（asynchronous IO）
+异步非阻塞，应用操作直接返回，而不会阻塞在那里，当后台处理完成，操作系统会通知相应线程进行后续工作。
+
+## BIO IO流详解
+### 主要分类
+字节流 输入字节流（inputstream） 输出字节流（outputstream）
+
+字节流主要操作字节数据与二进制对象，字节流有两个核心抽象类：InputStream 和 OutputStream。所有的字节流类都继承自这两个抽象类。
+
+字符流 输入字符流（reader）      输出字符流（writer）
+
+字符流有两个核心类：Reader 类和 Writer 。所有的字符流类都继承自这两个抽象类。
+
+字节流细分为：
+
+**内存字节流** ByteArrayInputStream ByteArrayOutputStream 完成内存的输入和输出功能。
+
+**文件字节流** FileInputStream FileOutputStream    (读写字节到文件的能力)
+
+**对象字节流** ObjectInputStream ObjectOutputStream (对象输入输出流，一般用于对象序列化。)
+
+**管道字节流** PipeInputStream PipeOutputStream      (进行两个线程间的通信。)
+
+字符流：
+
+**文件字符流** FileReader 和 FileWriter 可以向文件读写文本数据。
+### 字节流转换为字符流
+使用InputStreamReader 可以将输入字节流转为输入字符流
+
+使用OutputStreamWriter 可以将输出字节流转为输出字符流
+### 字节流与字符流异同
+相同点：都有相似的方法 read()、write()、flush()、close()
+
+不同点：1.对应的数据类型不同，字节流操作字节数据，字符流操作字符数据（一个字符两个字节）。核心抽象类不同
+       
+       2.字节流没有缓存区，字符流有缓存区 （字节流在操作时本身不会用到缓冲区（内存），是文件直接操作的。字符流在操作时是使用了缓冲区，通过缓冲区再操作文件。）
+## BIO 与 NIO 的 区别
+1.NIO非阻塞 
+ 
+2.BIO 面向流，NIO面向块（也可以说面向缓存区）
+
+3.BIO 的流是单向的 NIO 的channel是双向的
+
+4.NIO 有selector ，BIO 没有 选择器可以使单个线程使用多个通道
+
+5.NIO 有直接内存（DirectBuffer）
+###  NIO基本流程
+一切都从管道开始
+
+从通道进行数据读取 ：创建一个缓冲区，然后请求通道读取数据。
+
+从通道进行数据写入 ：创建一个缓冲区，填充数据，并要求通道写入数据。
+
+### buffer状态变量
+1.最大容量capacity
+
+2.position：当前已经读写的字节数；
+
+3.limit：还可以读写的字节数。
+
+4.mark：记录上一次 postion 的位置，默认是 0，算是一个便利性的考虑，往往不是必须 的。
