@@ -49,7 +49,30 @@ JVM 两个性能指标：**响应时间 吞吐量**
 java.lang.OutOfMemoryError: GC overhead limit exceeded 超过98%的时间用来GC 但是只回收了不到2%的内存
 ### 场景3：元数据区空间不足
 方法区和运行时常量池的空间不足。
+### 场景4：虚拟机栈和本地方法栈溢出
+虚拟机在扩展栈时无法申请到足够的内存空间，则抛出OutOfMemoryError异常
 ## StackOverFlow
+线程请求的栈深度大于虚拟机所能接受的最大深度就会抛出StackOverflow
+
 1.递归调用太深
 
 2.循环太多或者死循环
+# JVM GC(garbage collection)
+## 如何判断一个对象应该被回收
+1> 引用计数法  （但是因为循环引用的情况，这种对jvm并不适用 （a引用b，b引用a，这两种永远都不会被回收） ）
+
+2> 可达性分析   ：GC Roots 作为起始点进行搜索，JVM 将能够到达到的对象视为存活，不可达的对象视为死亡。GC roots一般是虚拟机栈与本地方法栈引用的对象或者方法区中类静态属性引用的对象
+## 引用类型（强软弱虚）
+1>强引用，也就是new ，这种引用不会被回收
+
+2>软引用，这种引用会在内存不够时被回收
+
+  SoftReference<Object> sf=new SoftRference<Object>(obj); 
+
+3>弱引用：一定会被垃圾收集器回收，也就是说它只能存活到下一次垃圾收集发生之前。
+  
+  WeakReference<Object> wf = new WeakReference<Object>(obj);
+
+4>虚引用：为一个对象设置虚引用关联的唯一目的就是能在这个对象被收集器回收时收到一个系统通知。
+  
+  PhantomReference<Object> pf = new PhantomReference<Object>(obj);
