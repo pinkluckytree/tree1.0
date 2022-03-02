@@ -57,7 +57,7 @@ java.lang.OutOfMemoryError: GC overhead limit exceeded 超过98%的时间用来G
 1.递归调用太深
 
 2.循环太多或者死循环
-# JVM GC(garbage collection)
+# JVM GC(garbage collection)垃圾回收
 ## 如何判断一个对象应该被回收
 1> 引用计数法  （但是因为循环引用的情况，这种对jvm并不适用 （a引用b，b引用a，这两种永远都不会被回收） ）
 
@@ -76,3 +76,5 @@ java.lang.OutOfMemoryError: GC overhead limit exceeded 超过98%的时间用来G
 4>虚引用：为一个对象设置虚引用关联的唯一目的就是能在这个对象被收集器回收时收到一个系统通知。
   
   PhantomReference<Object> pf = new PhantomReference<Object>(obj);
+
+## laji 
