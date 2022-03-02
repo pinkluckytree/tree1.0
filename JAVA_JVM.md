@@ -57,6 +57,31 @@ java.lang.OutOfMemoryError: GC overhead limit exceeded 超过98%的时间用来G
 1.递归调用太深
 
 2.循环太多或者死循环
+# JVM类加载
+## 类加载介绍
+类加载机制：动态加载
+
+过程：将类的class文件读入内存，放入方法区，然后在堆区创建一个 java.lang.class对象，用来封装类在方法区的数据结构
+
+最终产品：位于堆中的class对象
+
+类的生命周期：加载-验证-准备-解析-初始化-使用-卸载
+## 类加载器（ClassLoader）
+bootstrap ClassLoader(启动类加载器)：负责加载 JVM 自身工作所需要的类。
+
+Extension ClassLoader(扩展类加载器)：将 <JAVA_HOME>\lib\ext 或者被 java.ext.dir 系统变量所指定路径中的所有类库加载到内存中
+
+Application ClassLoader(应用程序类加载器)：负责加载用户类路径（即 classpath）上所指定的类库
+
+自定义加载器：
+
+### 双亲委派制度
+该模型要求除了顶层的 Bootstrap ClassLoader 外，其余的类加载器都应有自己的父类加载器。这里类加载器之间的父子关系一般通过组合（Composition）关系来实现，而不是通过继承（Inheritance）的关系实现。
+
+**一个类加载器首先将类加载请求传递给父类加载器，只有当父类加载器无法完成时才会进行加载**
+
+好处：使得java类随着他的加载器有一个优先级的层次关系，可以防止系统内出现多份相同字节码
+
 # JVM GC(garbage collection)垃圾回收
 ## 如何判断一个对象应该被回收
 1> 引用计数法  （但是因为循环引用的情况，这种对jvm并不适用 （a引用b，b引用a，这两种永远都不会被回收） ）
@@ -74,10 +99,7 @@ java.lang.OutOfMemoryError: GC overhead limit exceeded 超过98%的时间用来G
   WeakReference<Object> wf = new WeakReference<Object>(obj);
 
 4>虚引用：为一个对象设置虚引用关联的唯一目的就是能在这个对象被收集器回收时收到一个系统通知。
-## 垃圾回收性能
-1.吞吐量
-  
-2.响应时间
+
 
   
   
