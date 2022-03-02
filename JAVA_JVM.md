@@ -77,4 +77,9 @@ java.lang.OutOfMemoryError: GC overhead limit exceeded 超过98%的时间用来G
   
   PhantomReference<Object> pf = new PhantomReference<Object>(obj);
 
-## laji 
+## 垃圾回收性能
+1.吞吐量
+  
+2.响应时间
+## 垃圾回收算法
+  
