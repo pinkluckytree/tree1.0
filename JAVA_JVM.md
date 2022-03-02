@@ -74,12 +74,10 @@ java.lang.OutOfMemoryError: GC overhead limit exceeded 超过98%的时间用来G
   WeakReference<Object> wf = new WeakReference<Object>(obj);
 
 4>虚引用：为一个对象设置虚引用关联的唯一目的就是能在这个对象被收集器回收时收到一个系统通知。
-  
-  PhantomReference<Object> pf = new PhantomReference<Object>(obj);
-
 ## 垃圾回收性能
 1.吞吐量
   
 2.响应时间
-## 垃圾回收算法
+
+  
   
