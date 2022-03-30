@@ -124,7 +124,7 @@ join 方法会 让线程从 Running 状态转入 Waiting 状态。
 
 当调用了 join 方法后，当前线程必须等待调用 join 方法的线程结束后才能继续执行。
 ## 为什么 sleep 和 yield 方法是静态的？
-Thread 类的 sleep 和 yield 方法是[20181794-商涛-情绪与激素.docx](https://github.com/pinkluckytree/tree1.0/files/8104158/20181794-.-.docx)
+Thread 类的 sleep 和 yield 方法是
 处理 Running 状态的线程。
 
 
