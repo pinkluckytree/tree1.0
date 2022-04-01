@@ -2,11 +2,7 @@
 
 
 # 容器
-## 深拷贝与浅拷贝？
 
-浅拷贝只复制指向某个对象的指针，而不复制对象本身，新旧对象还是共享同一块内存。但深拷贝会另外创造一个一模一样的对象，新对象跟原对象不共享内存，修改新对象不会改到原对象。
-
-Java 中所有类都默认继承 java.lang.Object 类，在 java.lang.Object 类中有一个方法 clone()，这个方法将返回 Object 对象的一个拷贝。Object 类里的 clone() 方法仅仅用于浅拷贝（拷贝基本成员属性，对于引用类型仅返回指向改地址的引用）。如果 Java 类需要深拷贝，需要覆写 clone() 方法。
 
 ## List与Set的区别？
 1>都是继承自Collection接口
@@ -50,6 +46,10 @@ HashMap 计算桶下标（index）公式：hash=h ^ (h >>> 16)。不直接使用
 计算下标 ：(n - 1) & hash ，在扩容是只需要比较新增的一位，是0就不管，是1索引变为index=index+oldcap
 
 链表长度超过8变为红黑树
+### currentHashmap
+1.7使用分段锁
+
+1.8使用cas+synchronized
 ## 序列化，serializeable 
 序列化（serialize） - 序列化是将对象转换为字节流。
 
