@@ -1,3 +1,4 @@
+查阅网站：https://mybatis.org/mybatis-3/zh
 ## 数据持久化
 数据持久化就是 内存中的数据模型与存储模型之间的互相转化，操作数据库的过程就是数据持久化
 ## Mybatis是什么
@@ -61,4 +62,133 @@ resultType：使用java类型的全限定名(也可以使用别名，需要在my
 
 注：如果resultType是Map，那么sql语句最多只能得到一行结果（因为会使用Sqlsession中的selectone（）方法），得到的map对象中，列名是key，相应的值是value
 
-### resultMap
+### resultMap（结果映射）
+功能性更强，更灵活，可以自定义列名和java对象属性的对应关系，**常用在列名和属性名不同的情况下**
+
+用法:
+1. 先定义resultMap标签，指定列名和属性名称对应关系
+2. 在select标签中使用resultMap属性，指定上面定义的resulMap标签的id值
+```xml
+<!--    resultMap与resultTpye不可同时使用，二选一 -->
+<!--    使用resultMap定义列与属性的关系-->
+<!--    定义resultMap-->
+<!--    id：给resultMap的映射关系起个名称，唯一值-->
+<!--    type：java类型的全限定名称-->
+    <resultMap id="customMap" type="com.example.demo.vo.StudentVo">
+        <!--定义列名和属性名的对应-->
+        <!--主键类型使用id标签-->
+        <id column="id" property="vid"></id>
+        <!--非主键类型使用result标签-->
+        <result column="name" property="vname"></result>
+        <result column="email" property="vemail"></result>
+        <result column="age" property="vage"></result>
+        <!--列名与属性名相同不用定义-->
+    </resultMap>
+```
+## mybatis模糊查询 like
+第一种方式，在Java语句中加%： String name="zhang%";
+
+第二种方式，在sql语句中加%：select * from student where name like "%" #{name} "%"
+
+## 动态sql  dynamic sql（一般在多条件查询时使用）
+定义：同一个dao接口的方法，更具不同的条件可以表示不同的sql语句，主要是where部分有变化
+
+实现：使用mybatis提供的标签 ，主要有 if，where，foreach
+
+使用动态sql时，一般用对象传参
+
+### if标签
+``` xml
+<!--使用if实现动态sql-->
+    <select id="selectIf" resultType="com.example.demo.entity.Student">
+        select * from student 
+        where id=-1
+        <if test="name!=null and name!='' ">
+            name=#{name}
+        </if>
+        <if test="age>0">
+            or age=#{age}
+        </if>
+    </select>
+```
+where id=-1（或者where 1=1）的目的是为了避免出现语法错误，例如当条件一不满足但是条件二满足时sql语句会变为select * from student  or age=#{age} ，有语法错误
+
+注：当mapper的动态sql中出现 >,<,>=，<=时需要将其转换为实体符号，否则可能会出错
+
+常用的符号对应实体
+ 
+<!-- 1.<--- &lt
+2.>--- &gt
+3.>=--- &gt;=
+4.<=--- &lt;= -->
+
+### where标签
+使用where时，里面是一个或者多个if标签，只有当其中至少一个if标签为真，where标签会转为where关键字附在sql语句的后面。where标签会删除紧跟其的or与and来保证语法上的正确
+```xml
+<select id="selectWhere" resultType="com.example.demo.entity.Student">
+        select * from student
+        <where>
+        <if test="name!=null and name!=''">
+             or  name=#{name}
+        </if>
+        <if test="age>0">
+             or age=#{age}
+         </if>
+
+        </where>
+    </select>
+```
+### foreach标签 循环
+可以循环数组，list集合，一般使用在in语句中
+
+语法:
+
+<foreach collection="集合类型" open="开始字符" close="结束字符" separator="集合成员之间的分隔符" item="集合中的成员（类似for循环中的那个x）">
+            #{x}
+        </foreach>
+
+有两个方式，用简单类型作为参数与对象作为参数
+```xml
+    <!--使用foreach标签-->
+    <select id="selectForeach" resultType="com.example.demo.entity.Student">
+        select * from student 
+        <if test="list!=null and list.size>0">
+            where id in
+        <foreach collection="list" open="(" close=")" separator="," item="myId">
+            #{myId}
+        </foreach>
+        </if>
+    </select>
+    
+    <select id="selectForeachObject" resultType="com.example.demo.entity.Student">
+        select * from student
+        <if test="list!=null and list.size>0">
+            where id in
+            <foreach collection="list" open="(" close=")" separator="," item="stu">
+                #{stu.id}
+            </foreach>
+        </if>
+    </select>
+```
+### 代码片段，可以实现sql语句的复用
+## pagehelper
+数据分页，在你的select语句后面加入分页的sql内容
+
+使用步骤
+1. 加入依赖
+
+<!--分页 依赖-->
+        <dependency>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper-spring-boot-starter</artifactId>
+            <version>1.2.10</version>
+        </dependency>
+2. 在mybatis著配置文件，加入plugin声明
+<!--声明分页插件-->
+    <plugins>
+        <plugin interceptor="com.github.pagehelper.PageInterceptor"></plugin>
+    </plugins>
+
+3. 在select语句之前，调用 PageHelper.startPage（页码，每页大小）
+
+
