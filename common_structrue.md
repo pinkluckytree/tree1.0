@@ -29,6 +29,27 @@ Arrays.sort(T[])使用工具类 DualPivotQuicksort
         }
     }
 ```
+```java
+//自定义 比较算子，一维数组降序
+        //使用这种方式不可使用基本数据类型，需要使用包装类
+        Integer []nums=new Integer[100];
+        Arrays.sort(nums,new Comparator<Integer>(){
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return o2-o1;
+            }
+        });
+//自定义比较算子，二维数组根据某一维进行排序
+       Arrays.sort(boxTypes,new Comparator<int[]>(){
+            @Override
+            //返回值为正数就 交换 参数位置，反之不交换
+            public int compare(int[] o1, int[] o2) {
+                //return o1[1]-o2[1];//升序
+                return o2[1]-o1[1];//降序
+            }
+        });
+
+```
 
 
 
