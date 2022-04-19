@@ -3,6 +3,21 @@
 数据持久化就是 内存中的数据模型与存储模型之间的互相转化，操作数据库的过程就是数据持久化
 ## Mybatis是什么
 是一个半ORM（对象关系映射Object Relational Mapping）框架
+## mybatis一级缓存与二级缓存
+一级缓存：一级缓存是sqlsession级别的，同一个sqlsession执行相同的查询，后面的查询会直接使用缓存中的第一次查询的结果（第一次会去查询数据库并写到缓存中，第二次从一级缓存中取。）
+
+一级缓存何时清空：当sqlsession执行commit，delete，update，insert操作时，就会清除一级缓存避免脏读，同时当sqlsession执行了写操作并且在之后执行了commit（），就会同时清除一级缓存与二级缓存
+
+一级缓存没有过期时间，只有生命周期，SqlSession对象中会有一个Executor对象，Executor对象中持有一个PerpetualCache对象，当会话结束时，SqlSession对象及其内部的Executor对象还有PerpetualCache对象也一并释放掉。
+
+二级缓存：二级缓存是跨sqlsession的，二级缓存是 mapper 级别的缓存，多个 SqlSession 去操作同一个 Mapper 映射的 sql 语句，多个SqlSession 可以共用二级缓存；
+也可以理解为它指的是Mybatis中SqlSessionFactory对象的缓存。由同一个SqlSessionFactory对象创建的SqlSession共享其缓存。
+
+二级缓存何时存入：在关闭sqlsession后(close)，才会把该sqlsession一级缓存中的数据添加到namespace的二级缓存中。
+
+二级缓存有过期时间，但是没有专门的线程去检测是否过期，而是每一次查询判断是否过期，过期就清空
+
+mybatis使用缓存查询流程： 二级缓存---> 一级缓存---->数据库
 
 ## #与$的区别
 ### #占位符
