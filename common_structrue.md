@@ -1,4 +1,39 @@
-# 使用Deque接口实现队列，栈
+## Arrays.sort()详解
+Arrays.sort(T[])默认是升序排列
+
+Arrays.sort(T[])使用工具类 DualPivotQuicksort
+
+在这其中有几种原始的sort()算法
+
+1. 快速排序
+2. 双轴快速排序
+3. 插入排序
+4. 计数排序
+
+## 计数排序大致流程
+1. 找到最大数与最小数的差值，申请额外的空间，一般是数组arr[max-min+1] ,偏移量为bias=max-min
+2. 遍历待排序集合，将每一个值都放在数组对应的位置上 arr[x+bias]++
+3. 从前到后取出arr中的数即可
+
+## Arrays.sort源码解释
+```java
+//源码
+    public static <T> void sort(T[] a, Comparator<? super T> c) {
+        if (c == null) {
+            sort(a);
+        } else {
+            if (LegacyMergeSort.userRequested)
+                legacyMergeSort(a, c);
+            else
+                TimSort.sort(a, 0, a.length, c, null, 0, 0);
+        }
+    }
+```
+
+
+
+
+## 使用Deque接口实现队列，栈
 ## 栈
         Deque<Integer>stack=new LinkedList<>();
         stack.push(1);
