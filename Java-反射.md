@@ -13,3 +13,12 @@ java反射的实现所需的包都在 java.lang.Reflection中
 3. Method类：代表类的方法
 4. Constructor类：代表类的构造器
 5. Array类：提供了动态创建数组，以及访问数组的元素的静态方法
+
+## 获取Class对象的三种方法
+1. 使用Class.forName() 静态方法获取
+2. 使用object类的getClass()方法获取
+3. 使用类名+.class
+
+## 判断是否为某个对象的实例的两种方法
+1. 使用instanceof 关键字
+2. 使用 Class类的isInstance()方法,这是一个native方法
